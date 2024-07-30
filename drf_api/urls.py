@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
+
+def redirect_to_posts(request):
+    return redirect('post-list')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('', include('profiles.urls')),
+    path('profiles/', include('profiles.urls')),
+    path('posts/', include('posts.urls')),
+    path('', redirect_to_posts),  # Redirect root URL to 'post-list'
 ]
