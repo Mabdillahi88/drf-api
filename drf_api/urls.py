@@ -24,5 +24,6 @@ urlpatterns = [
     path('posts/', include('posts.urls')),  # Include posts app
     path('comments/', include('comments.urls')),  # Include comments app
     path('likes/', include('likes.urls')),  # Include likes app
+    path('followers/', include('followers.urls')),
     path('', RedirectView.as_view(url='/posts/')),  # Redirect root URL to 'post-list'
 ]
