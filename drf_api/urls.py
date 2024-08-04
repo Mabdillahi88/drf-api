@@ -16,18 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from .views import root_route
 
 urlpatterns = [
+    path('', root_route),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path(
-        'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')
-    ),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('profiles/', include('profiles.urls')),
-    path('posts/', include('posts.urls')),  # Include posts app
-    path('comments/', include('comments.urls')),  # Include comments app
-    path('likes/', include('likes.urls')),  # Include likes app
+    path('posts/', include('posts.urls')),
+    path('comments/', include('comments.urls')),
+    path('likes/', include('likes.urls')),
     path('followers/', include('followers.urls')),
-    path('', RedirectView.as_view(url='/posts/')),  # Redirect root URL to 'post-list'
+    path('', RedirectView.as_view(url='/posts/')),
 ]
