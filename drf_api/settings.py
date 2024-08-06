@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-import re  # Import the regular expression module
 
 if os.path.exists('env.py'):
     import env
@@ -20,10 +19,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # Set DEBUG to be True only if the DEV environment variable exists
 DEBUG = 'DEV' in os.environ
 
-# Add ALLOWED_HOST and CLIENT_ORIGIN_DEV environment variables
 ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOST'),
     'localhost',
+    '127.0.0.1',
+    '8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
+    'dfri-app.herokuapp.com',
+    'dfri-app-dc6e57a8e2dd.herokuapp.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -175,11 +176,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN')
-    ]
-elif 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
 else:
     CORS_ALLOWED_ORIGIN_REGEXES = [
