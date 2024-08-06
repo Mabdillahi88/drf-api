@@ -20,17 +20,15 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOST'),
     'localhost',
     '127.0.0.1',
-    '8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
-    'dfri-app.herokuapp.com',
-    'dfri-app-dc6e57a8e2dd.herokuapp.com'
+    '8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
-    'https://dfri-app.herokuapp.com',
-    'https://dfri-app-dc6e57a8e2dd.herokuapp.com'
+    f'https://{os.environ.get("ALLOWED_HOST")}'
 ]
 
 INSTALLED_APPS = [
