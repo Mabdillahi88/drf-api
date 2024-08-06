@@ -20,10 +20,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # Set DEBUG to be True only if the DEV environment variable exists
 DEBUG = 'DEV' in os.environ
 
+# Add ALLOWED_HOST and CLIENT_ORIGIN_DEV environment variables
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
-    '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -172,14 +172,14 @@ REST_AUTH_SERIALIZERS = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+elif 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
     CORS_ALLOWED_ORIGIN_REGEXES = [
         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
-elif 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
     ]
 else:
     CORS_ALLOWED_ORIGIN_REGEXES = [
