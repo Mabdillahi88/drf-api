@@ -24,11 +24,13 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
     'dfri-app.herokuapp.com',
+    'https://dfri-app-dc6e57a8e2dd.herokuapp.com/'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
     'https://dfri-app.herokuapp.com',
+    'https://dfri-app-dc6e57a8e2dd.herokuapp.com/'
 ]
 
 INSTALLED_APPS = [
