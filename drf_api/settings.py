@@ -6,6 +6,10 @@ import re
 if os.path.exists('env.py'):
     import env
 
+# Debugging - Print environment variables
+print("ALLOWED_HOST:", os.environ.get('ALLOWED_HOST'))
+print("CLIENT_ORIGIN_DEV:", os.environ.get('CLIENT_ORIGIN_DEV'))
+
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
