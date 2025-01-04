@@ -6,13 +6,6 @@ from urllib.parse import urlparse
 if os.path.exists('env.py'):
     import env
 
-# Debugging - Print environment variables
-print("DEBUGGING ENVIRONMENT VARIABLES:")
-print("SECRET_KEY:", os.environ.get("SECRET_KEY"))
-print("DATABASE_URL:", os.environ.get("DATABASE_URL"))
-print("ALLOWED_HOST:", os.environ.get("ALLOWED_HOST"))
-print("GITPOD_WORKSPACE_URL:", os.environ.get("GITPOD_WORKSPACE_URL"))
-
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
@@ -32,7 +25,7 @@ ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     '127.0.0.1',
-    'https://moments-ci5-bfe856bcc7b2.herokuapp.com/',
+    'https://moments-ci5-bfe856bcc7b2.herokuapp.com',  # No trailing slash
     '8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
 ]
 
@@ -41,8 +34,6 @@ if 'GITPOD_WORKSPACE_URL' in os.environ:
     workspace_url = os.environ['GITPOD_WORKSPACE_URL']
     parsed_url = urlparse(workspace_url)
     ALLOWED_HOSTS.append(parsed_url.netloc)
-
-print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
 
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
