@@ -25,8 +25,9 @@ ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     '127.0.0.1',
-    'https://moments-ci5-bfe856bcc7b2.herokuapp.com',  # No trailing slash
+    'https://moments-ci5-bfe856bcc7b2.herokuapp.com',  # Fixed trailing slash issue
     '8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
+    'mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
 ]
 
 # Dynamically add Gitpod workspace URL
@@ -35,18 +36,28 @@ if 'GITPOD_WORKSPACE_URL' in os.environ:
     parsed_url = urlparse(workspace_url)
     ALLOWED_HOSTS.append(parsed_url.netloc)
 
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
+
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
     'https://dfri-app.herokuapp.com',
     'https://dfri-app-dc6e57a8e2dd.herokuapp.com',
     'http://127.0.0.1:8000',  # Local development
-    "https://8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net",
+    'https://8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
+    'https://mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
 ]
 
 if 'GITPOD_WORKSPACE_URL' in os.environ:
     workspace_url = os.environ['GITPOD_WORKSPACE_URL']
     parsed_url = urlparse(workspace_url)
     CSRF_TRUSTED_ORIGINS.append(f"https://{parsed_url.netloc}")
+
+# CORS_ALLOWED_ORIGINS without trailing slash
+CORS_ALLOWED_ORIGINS = [
+    'https://moments-ci5-bfe856bcc7b2.herokuapp.com',
+    'https://8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
+    'https://mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -186,19 +197,5 @@ REST_AUTH_SERIALIZERS = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
-    ]
-elif 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https://.*\.gitpod\.io$",
-    ]
 
 CORS_ALLOW_CREDENTIALS = True
