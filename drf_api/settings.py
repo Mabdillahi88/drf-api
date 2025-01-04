@@ -1,14 +1,17 @@
 from pathlib import Path
 import os
 import dj_database_url
-import re
+from urllib.parse import urlparse
 
 if os.path.exists('env.py'):
     import env
 
 # Debugging - Print environment variables
-print("ALLOWED_HOST:", os.environ.get('ALLOWED_HOST'))
-print("CLIENT_ORIGIN_DEV:", os.environ.get('CLIENT_ORIGIN_DEV'))
+print("DEBUGGING ENVIRONMENT VARIABLES:")
+print("SECRET_KEY:", os.environ.get("SECRET_KEY"))
+print("DATABASE_URL:", os.environ.get("DATABASE_URL"))
+print("ALLOWED_HOST:", os.environ.get("ALLOWED_HOST"))
+print("GITPOD_WORKSPACE_URL:", os.environ.get("GITPOD_WORKSPACE_URL"))
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -18,23 +21,41 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+# SECRET KEY
+SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-default-secret-key')
 
-# Set DEBUG to be True only if the DEV environment variable exists
-DEBUG = 'DEBUG' in os.environ
+# DEBUG MODE
+DEBUG = 'DEV' in os.environ
 
+# ALLOWED HOSTS
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
     'localhost',
-    '8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
+    '127.0.0.1',
+    'https://moments-ci5-bfe856bcc7b2.herokuapp.com/',
+    '8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net',
 ]
 
+# Dynamically add Gitpod workspace URL
+if 'GITPOD_WORKSPACE_URL' in os.environ:
+    workspace_url = os.environ['GITPOD_WORKSPACE_URL']
+    parsed_url = urlparse(workspace_url)
+    ALLOWED_HOSTS.append(parsed_url.netloc)
+
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
+
+# CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-mabdillahi88-drfapi-272ty7zpoxe.ws.codeinstitute-ide.net',
     'https://dfri-app.herokuapp.com',
-    'https://dfri-app-dc6e57a8e2dd.herokuapp.com'
+    'https://dfri-app-dc6e57a8e2dd.herokuapp.com',
+    'http://127.0.0.1:8000',  # Local development
+    "https://8000-mabdillahi88-drfapi-997q38dxhtl.ws.codeinstitute-ide.net",
 ]
+
+if 'GITPOD_WORKSPACE_URL' in os.environ:
+    workspace_url = os.environ['GITPOD_WORKSPACE_URL']
+    parsed_url = urlparse(workspace_url)
+    CSRF_TRUSTED_ORIGINS.append(f"https://{parsed_url.netloc}")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -89,8 +110,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'allauth.account.context_processors.account',  # Add this line
-                # 'allauth.socialaccount.context_processors.socialaccount',  # Add this line
             ],
         },
     },
@@ -136,6 +155,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
